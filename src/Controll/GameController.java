@@ -11,7 +11,7 @@ import View.SelectPanel;
 import View.TitlePanel;
 
 public class GameController {
-
+	public boolean tieFlag;
     public MainFrame frame=new MainFrame();
 
     public TitlePanel title=new TitlePanel();
@@ -20,13 +20,15 @@ public class GameController {
     public ResultPanel result=new ResultPanel();
     public ContinuePanel cont=new ContinuePanel();
     public FinalPanel fin=new FinalPanel();
-
     public JankenModel model=new JankenModel();
-
+    
+    public String pName;
+    public String eName="敵";
+    
     public int win=0,lose=0,roundCount=0;
 
     public GameController(){
-
+    		tieFlag=false;
         frame.addScreen(title,"TITLE");
         frame.addScreen(round,"ROUND");
         frame.addScreen(select,"SELECT");

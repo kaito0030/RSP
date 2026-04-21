@@ -17,8 +17,13 @@ public class SelectState implements GameState {
 
     @Override
     public void enter() {
-
-        gc.select.setMessage("じゃんけん");
+    		if(!gc.tieFlag) {
+    			gc.select.setMessage("じゃんけん");
+    		}else {
+    			gc.select.setMessage("あいこでしょ");
+    			gc.tieFlag=false;
+    		}
+        
         gc.frame.showScreen("SELECT");
 
         gc.select.setHandListener(player -> {
@@ -27,23 +32,22 @@ public class SelectState implements GameState {
             Result r = gc.model.judge(player, cpu);
 
             if (r == Result.DRAW) {
-                gc.select.setMessage("あいこでしょ");
-                return;
+                gc.result.setResultText("あいこ");
+                gc.tieFlag=true;
+            }else {
+            		if (r == Result.WIN) {
+            			gc.win++;
+            			gc.result.setResultText("<html><font color=#000055>勝ち<html>");
+            		}else {
+            			gc.lose++;
+            			gc.result.setResultText("<html><font color=#550000>負け<html>");
+	            }
+            		gc.roundCount++;
+            		gc.result.setScore(gc.win, gc.lose);
             }
-
-            if (r == Result.WIN) gc.win++;
-            else gc.lose++;
-
-            gc.roundCount++;
-
+            
             gc.result.setHands(player, cpu);
-
-            if (r == Result.WIN)
-                gc.result.setResultText("勝ち");
-            else
-                gc.result.setResultText("負け");
-
-            gc.result.setScore(gc.win, gc.lose);
+            
 
             new ResultState(gc).enter();
         });

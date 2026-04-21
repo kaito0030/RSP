@@ -17,9 +17,11 @@ public class TitleState implements GameState {
     public void enter() {
 
         gc.frame.showScreen("TITLE");
-
-        gc.title.setStartListener(() ->
-            new RoundState(gc).enter()
+        
+        gc.title.setStartListener(() ->{
+        		gc.result.setName(gc.title.getText());
+            new RoundState(gc).enter();
+        }
         );
     }
 }
